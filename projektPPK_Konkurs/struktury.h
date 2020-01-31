@@ -20,7 +20,7 @@ struct utwor {
 
 };
 
-/** Element listy glownej */
+/** Element listy jednokierunkowej glownej */
 struct sesja {
 	string nazwaSesji; ///< nazwa sesji przechowywana w  elemencie listy
 

@@ -248,24 +248,7 @@ bool czyIstniejeSesja(sesja* pSesja, string nazwS)
 
 
 }
-bool sczyIstniejeSesja(sesja* pSesja, string nazwS)
-{
 
-	auto tempSesja = pSesja;
-
-	int sumaUtworow = 0;
-
-	while (tempSesja != nullptr)
-	{
-
-		if (tempSesja->nazwaSesji.compare(nazwS) == 0)
-			return true;
-		tempSesja = tempSesja->nastS;
-	}
-	return false;
-
-
-}
 
 
 void usunListy(sesja*& pSesja)
@@ -438,30 +421,34 @@ void usuwanieWystapien(sesja*& pSesja, string wykonawca)
 			while (tempSesja)
 			{
 				utwor* tempUtwor = tempSesja->utwory;
-				while (tempUtwor->nastU)
+				if (tempUtwor != nullptr)
 				{
-
-
-					if (wykonawca.compare(tempUtwor->nastU->wyk) == 0)
+					while (tempUtwor->nastU)
 					{
-						if (b == 1)
+
+
+						if (wykonawca.compare(tempUtwor->nastU->wyk) == 0)
 						{
-							tempUtwor = tempUtwor->nastU;
-							b--;
+							if (b == 1)
+							{
+								tempUtwor = tempUtwor->nastU;
+								b--;
+							}
+							else
+							{
+								utwor* us = tempUtwor->nastU;
+								tempUtwor->nastU = us->nastU;
+								delete us;
+							}
+
 						}
 						else
-						{
-							utwor* us = tempUtwor->nastU;
-							tempUtwor->nastU = us->nastU;
-							delete us;
-						}
+							tempUtwor = tempUtwor->nastU;
 
 					}
-					else
-						tempUtwor = tempUtwor->nastU;
-
 				}
-				tempSesja = tempSesja->nastS;
+					tempSesja = tempSesja->nastS;
+				
 			}
 		}
 	}
@@ -502,7 +489,7 @@ void czytaniePliku(sesja*& pSesja, string przelacznik1, bool& spr)
 
 				getline(Konkurs, fileLine);
 
-				//istringstream iss(fileLine);
+				
 				string wykonawca;
 				string utwor;
 				int czas;
